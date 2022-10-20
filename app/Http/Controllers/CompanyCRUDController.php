@@ -35,11 +35,9 @@ class CompanyCRUDController extends Controller
                             '<td>' . $product->email . '</td>' .
                             '<td>' . $product->address . '</td>' .
                             '<td>' ."<img src=\"/image/$product->image\"  alt=\"Image\"width=\"100px\">". '</td>' .
-                            '<td>' ." <a class=\"btn btn-primary\" href=\"/companies/$product->id/edit\">Edit</a>
+                            '<td>' ." <a class=\"btn btn-primary\" href=\"/companies/$product->id/edit\">Edit</a><button type=\"button\" class=\"btn btn-danger delete\"
+                            id=\"$product->id\">Delete</button>
                             ". '</td>' .
-
-                                '<td>' ."<button type=\"button\" class=\"btn btn-danger delete\"
-                                id=\"$product->id\">Delete</button>". '</td>' .
                                 '</tr>';
                         }
                         return Response($output);
