@@ -104,8 +104,11 @@
                         <td>{{ $company->email }}</td>
                         <td>{{ $company->address }}</td>
                         <td><img src="/image/{{ $company->image }}" width="100px"></td>
-                        <td>
-                            <a class="btn btn-primary" href="{{ route('companies.edit', $company->id) }}">Edit</a>
+                        <td> 
+                        @php
+                        $prodID = Crypt::encrypt($company->id)
+                        @endphp
+                            <a class="btn btn-primary" href="{{ route('companies.edit', $prodID) }}">Edit</a>
                             <button type="buttom" class="btn btn-danger delete"
                                 id="{{ $company->id }}">Delete</button>
                         </td>

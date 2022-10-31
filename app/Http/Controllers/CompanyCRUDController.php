@@ -6,6 +6,7 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class CompanyCRUDController extends Controller
 {
@@ -29,13 +30,14 @@ class CompanyCRUDController extends Controller
                     // dd($products);
                     if ($products) {
                         foreach ($products as $key => $product) {
+                            $prodID = Crypt::encrypt($product->id);
                             $output .= '<tr>' .
                             '<td>' . $product->id . '</td>' .
                             '<td>' . $product->name . '</td>' .
                             '<td>' . $product->email . '</td>' .
                             '<td>' . $product->address . '</td>' .
                             '<td>' ."<img src=\"/image/$product->image\"  alt=\"Image\"width=\"100px\">". '</td>' .
-                            '<td>' ." <a class=\"btn btn-primary\" href=\"/companies/$product->id/edit\">Edit</a><button type=\"button\" class=\"btn btn-danger delete\"
+                            '<td>' ." <a class=\"btn btn-primary\" href=\"/companies/$prodID/edit\">Edit</a><button type=\"button\" class=\"btn btn-danger delete\"
                             id=\"$product->id\">Delete</button>
                             ". '</td>' .
                                 '</tr>';
@@ -171,8 +173,10 @@ class CompanyCRUDController extends Controller
 
     //     return view('companies.edit')->with('data', $company);;
     // }
-    public function edit(Company $company)
+    public function edit(Request $request,$company)
     {
+        $prodID = Crypt::decrypt($company);
+        $company   = Company::find($prodID);
         return view('companies.edit', compact('company'));
     }
     /**
@@ -191,7 +195,6 @@ class CompanyCRUDController extends Controller
         ]);
 
         $company = Company::find($id);
-
         $company->name = $request->name;
         $company->email = $request->email;
         $company->address = $request->address;
