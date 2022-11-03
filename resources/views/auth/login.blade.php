@@ -45,6 +45,11 @@
                             <div class="d-grid mx-auto">
                                 <button type="submit" class="btn btn-dark btn-block">Signin</button>
                             </div>
+                            <div class="d-grid mx-auto">
+                                <a href="{{ url('auth/facebook') }}" style="margin-top: 0px !important;background: green;color: #ffffff;padding: 5px;border-radius:5px;text-align: center;text-decoration: none;" class="ml-2">
+                                    Facebook Login
+                                  </a> 
+                            </div>
                         </form>
                     </div>
                 </div>

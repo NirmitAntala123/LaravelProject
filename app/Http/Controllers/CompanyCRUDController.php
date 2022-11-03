@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
+use PDF;
+use Excel;
+use App\Exports\ExportUsers;
+use App\Imports\ImportUsers;
 
 class CompanyCRUDController extends Controller
 {
@@ -79,9 +83,7 @@ class CompanyCRUDController extends Controller
                 //         return Response($output1);
                 //     }
                 // }
-        
             $data['companies'] = Company::orderBy('id', 'asc')->paginate(5);
-
             return view('companies.index', $data);
             // return view('dashboard');
         }
@@ -89,6 +91,29 @@ class CompanyCRUDController extends Controller
 
     }
 
+    public function generatePDF(Request $request)
+    {
+        $data = [
+            'title' => 'Company Data',
+            'date' => date('m/d/Y')
+        ];
+        $products = Company::all();
+        $pdf = PDF::loadView('myPDF', compact('products'),$data);
+        return $pdf->download('CompanyData.pdf');
+    }
+    public function generateCSV()
+    {
+        return Excel::download(new ExportUsers, 'CompanyData.xlsx');
+    }
+
+    public function importCSV(Request $request) 
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx|max:2048',
+        ]);
+        Excel::import(new ImportUsers, request()->file('file'));
+        return back();
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -1,2 +1,12 @@
-<h1>Hi, {{ $name }}</h1>
-l<p>Sending Mail from Laravel.</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Mail</title>
+</head>
+<body>
+    <h1>{{ $details['title'] }}</h1>
+    <p>{{ $details['body'] }}</p>
+   
+    <p>Thank you</p>
+</body>
+</html>

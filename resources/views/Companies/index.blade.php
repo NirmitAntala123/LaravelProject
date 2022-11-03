@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#myInput").on("keyup", function() {
@@ -56,11 +58,38 @@
             <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
                     <h2>Laravel 8 CRUD Example Tutorial</h2>
+                    @error('file')
+                     <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="pull-right mb-2">
                     <a class="btn btn-success" href="{{ route('companies.create') }}"> Create Company</a>
                 </div>
+                <form action="{{ url('import-csv') }}" method="POST" name="importform"
+                    enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <input id="file" type="file" name="file" style="
+                            float: right;
+                            margin: -40px 160px;">
+                        </div> 
+                        <button class="btn btn-success" style="float: right; margin: -45px 130px;">Import CSV</button>
+                        {{-- <a class="btn btn-primary" href="{{ route('importCSV') }}">Import CSV</a> --}}
+                        <div class="dropdown" style="float: right;margin-top: -45px;">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                Export Data
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{{ route('generatePDF') }}">Export to PDF</a>
+                                <a class="dropdown-item" href="{{ route('generateCSV') }}">Export to CSV</a>
+                                {{-- <a class="dropdown-item" href="#">Link 3</a> --}}
+                            </div>
+                        </div>
+                </form>
+                
+               
             </div>
+
         </div>
 
         @if ($message = Session::get('success'))
@@ -104,18 +133,19 @@
                         <td>{{ $company->email }}</td>
                         <td>{{ $company->address }}</td>
                         <td><img src="/image/{{ $company->image }}" width="100px"></td>
-                        <td> 
-                        @php
-                        $prodID = Crypt::encrypt($company->id)
-                        @endphp
+                        <td>
+                            @php
+                                $prodID = Crypt::encrypt($company->id);
+                                @endphp
                             <a class="btn btn-primary" href="{{ route('companies.edit', $prodID) }}">Edit</a>
                             <button type="buttom" class="btn btn-danger delete"
-                                id="{{ $company->id }}">Delete</button>
+                            id="{{ $company->id }}">Delete</button>
                         </td>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $companies->links() }}
         <button type="buttom" class="btn btn-primary" id="showjson">ShowJSONdata</button>
         <div>
             <table class="table table-bordered table-hover" id="showdata">
@@ -125,27 +155,27 @@
                         <th>Id</th>
                         <th>title</th>
                         <th>body</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody>
                     @php
-                    $url = 'https://jsonplaceholder.typicode.com/posts';
-                    $json = json_decode(file_get_contents($url), true);
+                        $url = 'https://jsonplaceholder.typicode.com/posts';
+                        $json = json_decode(file_get_contents($url), true);
                     @endphp
                     @foreach ($json as $jsondata)
-                    <tr>
-                        <td>{{ $jsondata["userId"] }}</td>
-                        <td>{{ $jsondata["id"] }}</td>
-                        <td>{{ $jsondata["title"] }}</td>
-                        <td>{{ $jsondata["body"] }}</td>
-                    </tr>
-                @endforeach
+                        <tr>
+                            <td>{{ $jsondata['userId'] }}</td>
+                            <td>{{ $jsondata['id'] }}</td>
+                            <td>{{ $jsondata['title'] }}</td>
+                            <td>{{ $jsondata['body'] }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-        @php
+    {{-- @php
             $i = 1;
             // Get the current URL without the query string...
             echo url()->current();
@@ -156,79 +186,78 @@
             // Get the full URL for the previous request...
             echo url()->previous();
             echo Auth::user()->email;
-        @endphp
-        {{ $companies->links() }}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-        <script>
-            function loadlink() {
-                currLoc = $(location).attr("href");
-                console.log(currLoc);
-                // $("#container").load(currLoc, function() {
-                //     $('#container').unwrap();
-                // });
-                var spinner = "<img src='http://i.imgur.com/pKopwXp.gif' alt='loading...' />";
-                $(".reload").html(spinner).load(currLoc);
-                
-            }
-            
-            $(document).on('click', '.delete', function(e) {
-                var id = $(this).attr("id");
-              
-                // e.preventDefault();
-                swal({
-                        title: `Are you sure you want to delete this record?`,
-                        text: "If you delete this, it will be gone forever.",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                    .then((isConfirm) => {
-                        if (isConfirm) {
-                            $.ajax({
-                                url: "{{ url('companies') }}" + '/' + id,
-                                type: "POST",
-                                data: {
-                                    '_method': 'DELETE',
-                                    '_token': '{{ csrf_token() }}'
-                                },
-                                success: function(response) {
-                                    swal(
-                                        "Deleted!",
-                                        "Your record has been deleted.",
-                                        "success"
-                                    ).then(() => {
-                                        loadlink();
-                                    });
-                                }
-                            });
-                        }
-                    });
-            });
-            $('#search').on('keyup', function() {
-                $value = $(this).val();
-                $.ajax({
-                    type: 'get',
-                    url: '{{ URL::to('companies') }}',
-                    data: {
-                        'search': $value
-                    },
-                    success: function(data) {
-                        $('#tbody').html(data);
+        @endphp --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <script>
+        function loadlink() {
+            currLoc = $(location).attr("href");
+            console.log(currLoc);
+            // $("#container").load(currLoc, function() {
+            //     $('#container').unwrap();
+            // });
+            var spinner = "<img src='http://i.imgur.com/pKopwXp.gif' alt='loading...' />";
+            $(".reload").html(spinner).load(currLoc);
+
+        }
+
+        $(document).on('click', '.delete', function(e) {
+            var id = $(this).attr("id");
+
+            // e.preventDefault();
+            swal({
+                    title: `Are you sure you want to delete this record?`,
+                    text: "If you delete this, it will be gone forever.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((isConfirm) => {
+                    if (isConfirm) {
+                        $.ajax({
+                            url: "{{ url('companies') }}" + '/' + id,
+                            type: "POST",
+                            data: {
+                                '_method': 'DELETE',
+                                '_token': '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                swal(
+                                    "Deleted!",
+                                    "Your record has been deleted.",
+                                    "success"
+                                ).then(() => {
+                                    loadlink();
+                                });
+                            }
+                        });
                     }
                 });
-
-            })
-            $('#showjson').on('click', function() {
-                $("#showdata").toggle();
-            })
-        </script>
-        <script type="text/javascript">
-            $.ajaxSetup({
-                headers: {
-                    'csrftoken': '{{ csrf_token() }}'
+        });
+        $('#search').on('keyup', function() {
+            $value = $(this).val();
+            $.ajax({
+                type: 'get',
+                url: '{{ URL::to('companies') }}',
+                data: {
+                    'search': $value
+                },
+                success: function(data) {
+                    $('#tbody').html(data);
                 }
             });
-        </script>
+
+        })
+        $('#showjson').on('click', function() {
+            $("#showdata").toggle();
+        })
+    </script>
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'csrftoken': '{{ csrf_token() }}'
+            }
+        });
+    </script>
 </body>
 
 </html>

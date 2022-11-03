@@ -9,14 +9,22 @@ use App\Http\Controllers\Controller;
 
 class MailController extends Controller {
    public function basic_email() {
-      $data = array('name'=>"Virat Gandhi");
+      // $data = array('name'=>"Virat Gandhi");
    
-      Mail::send(['text'=>'mail'], $data, function($message) {
-         $message->to('abc@gmail.com', 'Tutorials Point')->subject
-            ('Laravel Basic Testing Mail');
-         $message->from('nantala114@rku.ac.in','Virat Gandhi');
-      });
-      echo "Basic Email Sent. Check your inbox.";
+      // Mail::send(['text'=>'mail'], $data, function($message) {
+      //    $message->to('abc@gmail.com', 'Tutorials Point')->subject
+      //       ('Laravel Basic Testing Mail');
+      //    $message->from('nantala114@rku.ac.in','Virat Gandhi');
+      // });
+      // echo "Basic Email Sent. Check your inbox.";
+      $details = [
+         'title' => 'Mail from Nirmit Antala',
+         'body' => 'This is for testing email using smtp'
+     ];
+    
+     \Mail::to('otherrworkk@gmail.com')->send(new \App\Mail\mail($details));
+    
+     dd("Email is Sent.");
    }
    public function html_email() {
       $data = array('name'=>"Virat Gandhi");
