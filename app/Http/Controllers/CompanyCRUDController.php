@@ -35,7 +35,7 @@ class CompanyCRUDController extends Controller
                     if ($products) {
                         foreach ($products as $key => $product) {
                             $prodID = Crypt::encrypt($product->id);
-                            $output .= '<tr>' .
+                            $output .= '<tr id=' . $product->id .'>' .
                             '<td>' . $product->id . '</td>' .
                             '<td>' . $product->name . '</td>' .
                             '<td>' . $product->email . '</td>' .
@@ -247,6 +247,12 @@ class CompanyCRUDController extends Controller
         dump($company);
         return redirect()->route('companies.index')
             ->with('success', 'Company has been deleted successfully');
+    }
+    public function deleteAll(Request $request)
+    {
+        $ids = $request->ids;
+        DB::table("companies")->whereIn('id',explode(",",$ids))->delete();
+        return response()->json(['success'=>"Products Deleted successfully."]);
     }
 }
 

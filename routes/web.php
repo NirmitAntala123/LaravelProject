@@ -33,6 +33,7 @@ Route::delete('companies/{company}', [CompanyCRUDController::class, 'destroy'])-
 Route::get('generate-pdf', [CompanyCRUDController::class, 'generatePDF'])->name('generatePDF');
 Route::get('generate-csv',[CompanyCRUDController::class, 'generateCSV'])->name('generateCSV');
 Route::post('import-csv', [CompanyCRUDController::class, 'importCSV'])->name('importCSV');
+Route::delete('myproductsDeleteAll', [CompanyCRUDController::class, 'deleteAll']);
 
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 
 Route::get('login', [CustomAuthController::class, 'index'])->name('login');
