@@ -1,9 +1,10 @@
 <?php
 
 namespace Database\Seeders;
-
+use App\Models\Admin;
 use Illuminate\Database\Seeder;
-
+use Hash;
+use Spatie\Permission\Models\Permission;
 class UserSeeder extends Seeder
 {
     /**
@@ -13,6 +14,15 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $admin = Admin::where('username', 'superadmin')->first();
+
+        if (is_null($admin)) {
+            $admin           = new Admin();
+            $admin->name     = "Super Admin";
+            $admin->email    = "superadmin@example.com";
+            $admin->username = "superadmin";
+            $admin->password = Hash::make('12345678');
+            $admin->save();
+        }
     }
 }

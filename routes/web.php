@@ -4,6 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyCRUDController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\AdminsController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+
+
 use Symfony\Component\Console\Input\Input;
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +27,8 @@ use Symfony\Component\Console\Input\Input;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/companies', [CompanyCRUDController::class, 'index'])->name('companies');
 // Route::get('/companies', [CompanyCRUDController::class, 'search'])->name('search');
@@ -49,14 +57,6 @@ Route::get('sendbasicemail',[MailController::class, 'basic_email']);
 Route::get('sendhtmlemail',[MailController::class, 'html_email']);
 Route::get('sendattachmentemail',[MailController::class, 'attachment_email']);
 
-
-
-Route::get('/json', function() {
-    $url = 'https://jsonplaceholder.typicode.com/posts';
-
-    // $response = file_get_contents($url);
-    // $newsData = json_decode($response);
-    $json = json_decode(file_get_contents($url), true);
-    dd($json[0]["userId"]);
-    // return response()->json($json);  
-});
+Route::resource('roles',  RolesController::class, ['names' => 'roles']);
+Route::resource('admins', AdminsController::class, ['names' => 'admins']);
+Route::resource('profile', ProfileController::class, ['names' => 'profile']);

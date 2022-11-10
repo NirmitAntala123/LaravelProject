@@ -1,1 +1,43 @@
+.avatar {
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  }
+  .avatar1 {
+    vertical-align: middle;
+    width: 200px;
+    height: 200px;
+    border-radius: 60%;
+    margin: 0 0 0 12px;
+  }
+  .user-profile-img{
+    width: 100%;
+    max-width: 89%;
+    margin: 59px auto 0 45px;
+    position: relative;
+}
 
+.profile-bg .user-profile-img img{
+    width: 100%;
+    border-radius: 150px;
+    border: 1px solid #d6d6d6;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.profile-bg .user-profile-img span.icon-cam {
+    background-color: #fff;
+    padding: 7px;
+    color: #636363;
+    font-size: 21px;
+    border-radius: 50px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    width: 45px;
+    height: 45px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    left: auto;
+    top: 38px;
+    bottom: auto;
+}

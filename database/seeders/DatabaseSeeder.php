@@ -17,7 +17,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        DB::table('users')->delete();
+        // DB::table('users')->delete();
+        $this->call(UserSeeder::class);
+        // $this->call(AdminSeeder::class);
+        $this->call(RolePermissionSeeder::class);
         // DB::table('users')->insert(
         //     // [
         //     //     'name' => 'nirmit',

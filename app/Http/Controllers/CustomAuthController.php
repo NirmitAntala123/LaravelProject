@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Admin;
 use Hash;
 use Socialite;
 use Exception;
@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Mews\Captcha\Facades\Captcha;   
+use Illuminate\Support\Facades\Session;
 
 class CustomAuthController extends Controller
 {   
@@ -62,12 +63,13 @@ class CustomAuthController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
+        // dd(Admin::all());
         $remember_me = $request->has('remember') ? true : false;
-        if (auth()->attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember_me)) {
+        if (Auth::guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember_me)) {
             $user = auth()->user();
             // dd($user);
             // dd($remember_me);
-            return redirect()->intended('companies')
+            return redirect()->intended('home')
                 ->withSuccess('Signed in');
         } else {
             // return back()->with('error','your username and password are wrong.');
@@ -150,8 +152,8 @@ class CustomAuthController extends Controller
 
     public function signOut()
     {
-        // Session::flush();
-        Auth::logout();
+        Session::flush();
+        Auth::guard('admin')->logout();
 
         return Redirect('login');
     }

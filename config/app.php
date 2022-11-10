@@ -179,6 +179,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
         
     ],
 
