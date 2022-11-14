@@ -29,7 +29,7 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        // dd(Auth::guard('admin')->user()->can('admin.view'));
+        // dd(Auth::guard('admin')->user());
         if (is_null($this->user) || !$this->user->can('admin.view')) {
             abort(403, 'Sorry !! You are Unauthorized to view any admin !');
         }

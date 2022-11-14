@@ -24,6 +24,10 @@
                                     @endif
                                 </div>
                                 <div class="form-group mb-3">
+                                    <input type="text" id="roles" class="form-control"
+                                        name="roles" value='user' hidden>
+                                </div>
+                                <div class="form-group mb-3">
                                     <input type="password" placeholder="Password" id="password" class="form-control"
                                         name="password" required>
                                     @if ($errors->has('password'))

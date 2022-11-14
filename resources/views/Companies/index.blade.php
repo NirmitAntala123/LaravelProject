@@ -33,11 +33,11 @@ Manage CompanyData
                         <input id="file" type="file" name="file"
                             style="
                             float: right;
-                            margin: -40px 160px;">
+                            margin: -15px 160px;">
                     </div>
-                    <button class="btn btn-success" style="float: right; margin: -45px 130px;">Import CSV</button>
+                    <button class="btn btn-success" style="float: right; margin: -16px 130px;">Import CSV</button>
                     {{-- <a class="btn btn-primary" href="{{ route('importCSV') }}">Import CSV</a> --}}
-                    <div class="dropdown" style="float: right;margin-top: -45px;">
+                    <div class="dropdown" style="float: right;margin: -22px 2px 0 225px;">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             Export Data
                         </button>

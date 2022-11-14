@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Mews\Captcha\Facades\Captcha;   
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Session;
 
 class CustomAuthController extends Controller
@@ -88,7 +89,8 @@ class CustomAuthController extends Controller
 
     public function registration()
     {
-        return view('auth.registration');
+        $roles  = Role::all();
+        return view('auth.registration', compact('roles'));
     }
 
     public function customRegistration(Request $request)
@@ -122,7 +124,9 @@ class CustomAuthController extends Controller
             // dd($data);
             // exit;
             $check = $this->create($data);
-
+            if ($request->roles) {
+                $check->assignRole($request->roles);
+            }
             return redirect("dashboard")->withSuccess('You have signed-in');
             return response()->json(["status" => true, "message" => "Form submitted successfully"]);
         }
@@ -134,7 +138,7 @@ class CustomAuthController extends Controller
     }
     public function create(array $data)
     {
-        return User::create([
+        return Admin::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),

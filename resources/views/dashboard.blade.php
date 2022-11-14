@@ -53,13 +53,14 @@
                                 <li class="nav-item dropdown">
                                     
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        <img src="{{asset("backend/assets/images/author/avatar.png")}}" alt="Avatar" class="avatar">    {{ Auth::user()->name }}<span class="caret"></span>
+                                        <img src="/image/{{$user->image}}" alt="Avatar" class="avatar">    {{ Auth::user()->name }}<span class="caret"></span>
                                     </a>
     
     
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    
+                                        @if ($user->can('profile.view'))
                                         <a class="nav-link" href="{{ route('profile.index') }}">Profile</a>
+                                        @endif
                                         <a class="nav-link" href="#">Settings</a>
                                         <a class="nav-link" href="{{ route('signout') }}">Logout</a>
                                     

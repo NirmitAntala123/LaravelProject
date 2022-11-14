@@ -1,13 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Company Form - Laravel 8 CRUD Tutorial</title>
+
+@extends('dashboard')
+@section('title')
+Company Edit
+@endsection
+
+@section('styles')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    .form-check-label {
+        text-transform: capitalize;
+    }
+</style>
+@endsection
+
  
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
-</head>
-<body>
- 
+@section('content')
 <div class="container mt-2">
  
     <div class="row">
@@ -79,5 +87,4 @@
     </form>
 </div>
  
-</body>
-</html>
+@endsection
