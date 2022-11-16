@@ -130,7 +130,7 @@ class AdminsController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.edit')) {
             abort(403, 'Sorry !! You are Unauthorized to edit any admin !');
         }
-
+// dd($id);
         // TODO: You can delete this in your local. This is for heroku publish.
         // This is only for Super Admin role,
         // so that no-one could delete or disable it by somehow.
@@ -186,7 +186,7 @@ class AdminsController extends Controller
             session()->flash('error', 'Sorry !! You are not authorized to delete this Admin as this is the Super Admin. Please create new one if you need to test !');
             return back();
         }
-
+      
         $admin = Admin::find($id);
         if (!is_null($admin)) {
             $admin->delete();

@@ -43,6 +43,7 @@ Admins - Admin Panel
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title float-left">Admins List</h4>
+                    {{-- <x-home /> --}}
                     <p class="float-right mb-2">
                         @php
                         // dd(Auth::guard('admin')->user());
