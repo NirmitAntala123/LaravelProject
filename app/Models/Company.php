@@ -15,9 +15,16 @@ class Company extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        // 'id',
         'name',
         'email',
         'address',
-        // 'image,'
+        'image',
     ];
-}
+
+    //Mutator
+    // public function setAddressAttribute($value)
+    // {
+    //    $this->Attribute['address']=$value .' india';
+    // }
+    }

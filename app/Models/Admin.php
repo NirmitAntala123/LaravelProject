@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +18,7 @@ class Admin extends Authenticatable
      */
 
     protected $guard_name = 'admin';
-   
+
     /**
      * The attributes that are mass assignable.
      *
@@ -47,6 +46,13 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //Accessor
+    public function getNameAttribute($value)
+    {
+        return ucFirst($value);
+    }
+
+    
     public static function getpermissionGroups()
     {
         $permission_groups = DB::table('permissions')
