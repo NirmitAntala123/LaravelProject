@@ -5,6 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <div class="card">
+                    
                     @php if(auth()->user())
                     {
                        $login_email = Auth::user()->email;
@@ -18,6 +19,11 @@
                        $is_remember = "";
                      }
                     @endphp
+                    @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                     @endif
                     <h3 class="card-header text-center">Login</h3>
                     <div class="card-body">
                         <form method="POST" action="{{ route('login.custom') }}">
