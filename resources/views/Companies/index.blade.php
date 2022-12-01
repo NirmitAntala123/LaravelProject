@@ -153,6 +153,6 @@ Manage CompanyData
             echo url()->previous();
             echo Auth::user()->email;
         @endphp --}}
-     <script src="{{ asset('js/allJQuery.js') }}"></script>
+    
     
      @endsection 

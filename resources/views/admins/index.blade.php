@@ -94,6 +94,9 @@ Admins - Admin Panel
                                             @method('DELETE')
                                             @csrf
                                         </form>
+                                        <td>
+                                            <input data-id="{{$admin->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $admin->status ? 'checked' : '' }}>
+                                         </td>
                                         @endif
                                     </td>
                                 </tr>
@@ -129,6 +132,6 @@ Admins - Admin Panel
                 responsive: true
             });
         }
-
+        
      </script>
 @endsection

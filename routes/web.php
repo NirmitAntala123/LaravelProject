@@ -59,4 +59,5 @@ Route::get('sendattachmentemail',[MailController::class, 'attachment_email']);
 
 Route::resource('roles',  RolesController::class, ['names' => 'roles']);
 Route::resource('admins', AdminsController::class, ['names' => 'admins']);
+Route::get('userChangeStatus', [AdminsController::class, 'userChangeStatus'])->name('userChangeStatus'); 
 Route::resource('profile', ProfileController::class, ['names' => 'profile']);

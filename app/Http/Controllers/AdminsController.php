@@ -168,6 +168,21 @@ class AdminsController extends Controller
     }
 
     /**
+     * Responds with a welcome message with instructions
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function userChangeStatus(Request $request)
+    {
+    	\Log::info($request->all());
+        $user = Admin::find($request->user_id);
+        $user->status = $request->status;
+        $user->save();
+  
+        return response()->json(['success'=>'Status change successfully.']);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
