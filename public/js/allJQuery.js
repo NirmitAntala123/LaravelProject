@@ -1,16 +1,23 @@
 
 $(document).ready(function () {
+    setTimeout(function(){
+        $('#massage').html('');
+    }, 5000);
     $('.toggle-class').change(function() {
         var status = $(this).prop('checked') == true ? 1 : 0; 
-        var user_id = $(this).data('id'); 
-        console.log(status);
+        var user_id = $(this).attr('id'); 
         $.ajax({
             type: "GET",
             dataType: "json",
             url: '/userChangeStatus',
             data: {'status': status, 'user_id': user_id},
             success: function(data){
-            console.log(data.success)
+                if(data.error==1){
+                    var id ='#'+user_id
+                    $(id).parent().removeClass("btn-danger off").addClass("btn-success");
+                    $("#massage").html(data.massage);
+                }
+                $("#massage").html(data.success);
             }
         });
     })

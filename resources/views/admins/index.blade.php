@@ -26,8 +26,11 @@ Admins - Admin Panel
                 <ul class="breadcrumbs pull-left">
                     {{-- <li><a href="{{ route('dashboard') }}">Dashboard</a></li> --}}
                     <li><span>All Admins</span></li>
+                    
                 </ul>
+                
             </div>
+            <p id="massage"></p>
         </div>
         {{-- <div class="col-sm-6 clearfix">
             @include('backend.layouts.partials.logout')
@@ -45,9 +48,6 @@ Admins - Admin Panel
                     <h4 class="header-title float-left">Admins List</h4>
                     {{-- <x-home /> --}}
                     <p class="float-right mb-2">
-                        @php
-                        // dd(Auth::guard('admin')->user());
-                        @endphp
                         @if (Auth::guard('admin')->user()->can('admin.create'))
                             <a class="btn btn-primary text-white" href="{{ route('admins.create') }}">Create New Admin</a>
                         @endif
@@ -95,7 +95,7 @@ Admins - Admin Panel
                                             @csrf
                                         </form>
                                         <td>
-                                            <input data-id="{{$admin->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $admin->status ? 'checked' : '' }}>
+                                            <input id="{{$admin->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-on="Active" data-off="InActive" {{ $admin->status ? 'checked' : '' }}>
                                          </td>
                                         @endif
                                     </td>

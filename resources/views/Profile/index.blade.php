@@ -37,7 +37,7 @@
                         <li>{{ $admin->created_at->diffForHumans(now(), Carbon\CarbonInterface::DIFF_RELATIVE_AUTO, true, 2) }}
                         </li> --}}
                         <li>{{ $admin->created_at->diffForHumans() }}</li>
-                        <li>{{ $admin->created_at->diffForHumans(['parts' => 5]) }}</li>
+                        <li>{{ $admin->created_at->diffForHumans(['parts' => 7]) }}</li>
                     </ul>
                 </div>
             </div>

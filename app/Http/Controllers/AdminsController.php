@@ -174,12 +174,25 @@ class AdminsController extends Controller
      */
     public function userChangeStatus(Request $request)
     {
+
+        if (is_null($this->user) || !$this->user->can('admin.delete')) {
+            abort(403, 'Sorry !! You are Unauthorized to delete any admin !');
+        }
     	\Log::info($request->all());
-        $user = Admin::find($request->user_id);
-        $user->status = $request->status;
-        $user->save();
-  
-        return response()->json(['success'=>'Status change successfully.']);
+     
+        if ($request->user_id == 1) {
+            session()->flash('error', 'Sorry !! You are not authorized to delete this Admin as this is the Super Admin. Please create new one if you need to test !');
+            return response()->json(['error'=>'1','massage'=>'Sorry !! You are not authorized to delete this Admin as this is the Super Admin.']);
+           
+            return back();
+        }else{
+            $user = Admin::find($request->user_id);
+            $user->status = $request->status;
+            $user->save();
+      
+            return response()->json(['success'=>'Status change successfully.']);
+        }
+      
     }
 
     /**
