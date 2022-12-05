@@ -138,9 +138,10 @@ $(document).on("click", ".delete", function (e) {
                 url: base_path + "/companies" + "/" + id,
                 type: "POST",
                 method: "DELETE",
-                data: {
-                    // _method: 'DELETE',
-                    _token: token,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
                 },
                 success: function (response) {
                     // $(id).closest("tr").remove();
