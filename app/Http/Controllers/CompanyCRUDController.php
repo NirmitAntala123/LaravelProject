@@ -11,7 +11,7 @@ use PDF;
 use Excel;
 use App\Exports\ExportUsers;
 use App\Imports\ImportUsers;
-
+use App\Events\Logcompany;
 class CompanyCRUDController extends Controller
 {
     /**
@@ -172,6 +172,7 @@ class CompanyCRUDController extends Controller
             $company['image'] = "$profileImage";
         }
         $company->save();
+        event(new Logcompany($company));
         return redirect('/companies')->with('success', 'Company has been created successfully.');
     }
 

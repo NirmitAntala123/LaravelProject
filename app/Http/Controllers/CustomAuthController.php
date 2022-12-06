@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Mews\Captcha\Facades\Captcha;   
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Session;
+use App\Events\LoginHistory;
 
 class CustomAuthController extends Controller
 {   
@@ -67,9 +68,11 @@ class CustomAuthController extends Controller
         // dd(Admin::all());
         $remember_me = $request->has('remember') ? true : false;
         if (Auth::guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember_me)) {
-            $user = auth()->user();
+            
             // dd($user);
             // dd($remember_me);
+             $user = Auth::user();
+             event(new LoginHistory($user));
             return redirect()->intended('home')
                 ->withSuccess('Signed in');
         } else {
