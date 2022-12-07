@@ -34,12 +34,7 @@
                                         <span class="text-danger">{{ $errors->first('password') }}</span>
                                     @endif
                                 </div>
-                                <div class="form-group mb-3">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="remember"> Remember Me</label>
-                                    </div>
-                                </div>
-                              
+                               
                                 <div class="form-group">
                                     <div class="flex flex-wrap items-center">
                                         <div class="flex-1 border-gray-400 border-2 rounded">
@@ -49,7 +44,7 @@
                                                     class="fa fa-refresh"></i></button>
                                         </div>
                                     </div>
-                                    <input id="captcha" type="text" class="form-control" placeholder="Enter Captcha"
+                                    <input id="captcha" type="text" class="form-control mt-2" placeholder="Enter Captcha"
                                         name="captcha">
                                 </div>
                                 @if ($errors->has('captcha'))
