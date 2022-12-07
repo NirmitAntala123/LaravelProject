@@ -79,7 +79,7 @@ class CustomAuthController extends Controller
             // return back()->with('error','your username and password are wrong.');
 
             // return redirect("login")->withSuccess('Login details are not valid');
-            return redirect()->route('login')->with('error', 'Login details are not valid.');
+            return redirect()->route('login')->with('error', 'Login details are not valid.')->withInput();
         }
 
         // $credentials = $request->only('email', 'password');
