@@ -10,34 +10,20 @@
                 </div>
                  @endif
                 <div class="card">
-                    
-                    @php if(auth()->user())
-                    {
-                       $login_email = Auth::user()->email;
-                       $login_pass  = Auth::user()->password;
-                    //    echo bcrypt($login_pass);
-                       $is_remember = "checked='checked'";
-                    }
-                    else{
-                       $login_email ='';      
-                       $login_pass = '';
-                       $is_remember = "";
-                     }
-                    @endphp
-                   
+                  
                     <h3 class="card-header text-center">Login</h3>
                     <div class="card-body">
                         <form method="POST" action="{{ route('login.custom') }}">
                             @csrf
                             <div class="form-group mb-3">
-                            <input type="text" placeholder="Email" id="email" class="form-control" name="email" value='{{$login_email}}'required
-                                    autofocus>
+                            <input type="text" placeholder="Email" id="email_address" class="form-control" name="email" value="{{ old('email') }}" 
+                                    autofocus />
                                 @if ($errors->has('email'))
                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                                 @endif
                             </div>
                             <div class="form-group mb-3">
-                                <input type="password" placeholder="Password" id="password" class="form-control" name="password" value='{{$login_pass}}' required>
+                                <input type="password" placeholder="Password" id="password" class="form-control" name="password"  required>
                                 @if ($errors->has('password'))
                                 <span class="text-danger">{{ $errors->first('password') }}</span>
                                 @endif
@@ -45,7 +31,7 @@
                             <div class="form-group mb-3">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember" {{$is_remember}}> {{ __('Remember Me') }} 
+                                        <input type="checkbox" name="remember"> {{ __('Remember Me') }} 
                                     </label>
                                 </div>
                             </div>
