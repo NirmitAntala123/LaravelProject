@@ -1,8 +1,6 @@
 
 $(document).ready(function () {
-    setTimeout(function(){
-        $('#massage').html('');
-    }, 5000);
+    
     $('.toggle-class').change(function() {
         var status = $(this).prop('checked') == true ? 1 : 0; 
         var user_id = $(this).attr('id'); 
@@ -16,8 +14,14 @@ $(document).ready(function () {
                     var id ='#'+user_id
                     $(id).parent().removeClass("btn-danger off").addClass("btn-success");
                     $("#massage").html(data.massage);
+                    setTimeout(function(){
+                        $('#massage').html('');
+                    }, 5000);
                 }
                 $("#massage").html(data.success);
+                setTimeout(function(){
+                    $('#massage').html('');
+                }, 5000);
             }
         });
     })
