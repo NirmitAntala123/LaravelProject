@@ -58,6 +58,11 @@ Route::get('sendhtmlemail',[MailController::class, 'html_email']);
 Route::get('sendattachmentemail',[MailController::class, 'attachment_email']);
 
 Route::resource('roles',  RolesController::class, ['names' => 'roles']);
+
 Route::resource('admins', AdminsController::class, ['names' => 'admins']);
 Route::get('userChangeStatus', [AdminsController::class, 'userChangeStatus'])->name('userChangeStatus'); 
+Route::get('projects/deletedusers', [AdminsController::class, 'getdeletedusers'])->name('getDeleteusers');
+Route::get('projects/deletedusers/{id}', [AdminsController::class, 'restoreDeletedusers'])->name('restoreDeletedusers');
+Route::get('projects/retoreusers/{id}', [AdminsController::class, 'deletePermanently'])->name('deletePermanently');
+
 Route::resource('profile', ProfileController::class, ['names' => 'profile']);

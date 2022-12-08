@@ -50,6 +50,7 @@ Admins - Admin Panel
                     <p class="float-right mb-2">
                         @if (Auth::guard('admin')->user()->can('admin.create'))
                             <a class="btn btn-primary text-white" href="{{ route('admins.create') }}">Create New Admin</a>
+                            <a class="btn btn-light" href="{{ route('getDeleteusers') }}" title="View Deleted Users"> <i class="fas fa-recycle text-danger fa-lg"></i></a>
                         @endif
                     </p>
                     <div class="clearfix"></div>
