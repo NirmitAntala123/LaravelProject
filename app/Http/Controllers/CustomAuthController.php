@@ -1,20 +1,19 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Events\LoginHistory;
 use App\Models\Admin;
-use Hash;
-use Socialite;
 use Exception;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Mews\Captcha\Facades\Captcha;   
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Session;
-use App\Events\LoginHistory;
+use Illuminate\Support\Facades\Validator;
+use Socialite;
+use Spatie\Permission\Models\Role;
 
 class CustomAuthController extends Controller
-{   
+{
     /**
      * Create a new controller instance.
      *
@@ -24,7 +23,7 @@ class CustomAuthController extends Controller
     {
         return Socialite::driver('facebook')->redirect();
     }
-       
+
     /**
      * Create a new controller instance.
      *
@@ -35,16 +34,16 @@ class CustomAuthController extends Controller
         try {
             $user = Socialite::driver('facebook')->user();
             $finduser = User::where('social_id', $user->id)->first();
-            if($finduser){
+            if ($finduser) {
                 Auth::login($finduser);
                 return redirect('/home');
-            }else{
+            } else {
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'social_id'=> $user->id,
-                    'social_type'=> 'facebook',
-                    'password' => encrypt('my-facebook')
+                    'social_id' => $user->id,
+                    'social_type' => 'facebook',
+                    'password' => encrypt('my-facebook'),
                 ]);
                 Auth::login($newUser);
                 return redirect("dashboard")->withSuccess('You have signed-in');
@@ -61,24 +60,49 @@ class CustomAuthController extends Controller
 
     public function customLogin(Request $request)
     {
+        // dd($checktrashed);
+        // $checktrashed = Admin::where('email', $request->input('email'))->onlyTrashed()->first();
         $request->validate([
-            'email' => 'required',
+            'email' => ['required',
+                // function ($checktrashed, $fail) {
+                //     if ($checktrashed!= null) {
+                //         $fail('your account has been deleted, Please contact admin!!');
+                //     }
+                // },
+            ],
             'password' => 'required',
         ]);
         // dd(Admin::all());
         $remember_me = $request->has('remember') ? true : false;
         if (Auth::guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember_me)) {
-            
+
             // dd($user);
             // dd($remember_me);
-             $user = Auth::user();
-             event(new LoginHistory($user));
+            $user = Auth::user();
+            event(new LoginHistory($user));
             return redirect()->intended('home')
                 ->withSuccess('Signed in');
         } else {
-            // return back()->with('error','your username and password are wrong.');
+            // dd(Admin::where('id', '20')->onlytrashed()->find());
+            $checktrashed = Admin::where('email', $request->input('email'))->onlyTrashed()->first();
+            // dd($checktrashed);
+            if($checktrashed != null){
+                    return redirect()->route('login')->with('error', 'your account has been deleted, Please contact admin!!')->withInput();
+            }
 
+        //some stuff for soft deleted user
+
+            // return back()->with('error','your username and password are wrong.');
+            // dd($request->input('email'));
+            // $users = Admin::onlyTrashed()->get();
+            // // $users->email()->withTrashed()->get();
+            //     // Admin::withTrashed()->find('20')->restore();
+            //     // dd(Admin::onlytrashed()->where('id', '20')->find());
+            //     dd($users['0']['email']);
+            // dd(Admin::withTrashed()->find($request->input('email')));
+            // $trashed=Admin::withTrashed()->find('19');
             // return redirect("login")->withSuccess('Login details are not valid');
+            
             return redirect()->route('login')->with('error', 'Login details are not valid.')->withInput();
         }
 
@@ -93,26 +117,26 @@ class CustomAuthController extends Controller
 
     public function registration()
     {
-        $roles  = Role::all();
+        $roles = Role::all();
         return view('auth.registration', compact('roles'));
     }
 
     public function customRegistration(Request $request)
     {
-        $rules = ['captcha' => 'required|captcha_api:'. request('key') . ',math'];
+        $rules = ['captcha' => 'required|captcha_api:' . request('key') . ',math'];
         // $validator = validator()->make(request()->all(), $rules);
         // if ($validator->fails()) {
         //     return response()->json([
         //         'message' => 'invalid captcha',
         //     ]);
-    
+
         // } else {
         //     //do the job
         // }
         $validator = Validator::make(
             $request->all(),
-            [   'name' => 'required',
-                'email' => 'required|email|unique:users',
+            ['name' => 'required',
+                'email' => 'required|email|unique:admins',
                 'password' => 'required|min:6',
                 'captcha' => 'required|captcha',
             ],
@@ -137,7 +161,7 @@ class CustomAuthController extends Controller
 
     }
     public function refreshCaptcha()
-    { 
+    {
         return app('captcha')->generate();
     }
     public function create(array $data)
