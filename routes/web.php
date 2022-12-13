@@ -66,3 +66,7 @@ Route::get('projects/deletedusers/{id}', [AdminsController::class, 'restoreDelet
 Route::get('projects/retoreusers/{id}', [AdminsController::class, 'deletePermanently'])->name('deletePermanently');
 
 Route::resource('profile', ProfileController::class, ['names' => 'profile']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
