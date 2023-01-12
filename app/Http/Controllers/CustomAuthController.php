@@ -76,13 +76,14 @@ class CustomAuthController extends Controller
         $remember_me = $request->has('remember') ? true : false;
         if (Auth::guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $remember_me)) {
 
-            // dd($user);
             // dd($remember_me);
             $user = Auth::user();
             event(new LoginHistory($user));
             return redirect()->intended('home')
                 ->withSuccess('Signed in');
         } else {
+            // dd(Auth::guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password'),'name'=>'User']));
+
             // dd(Admin::where('id', '20')->onlytrashed()->find());
             $checktrashed = Admin::where('email', $request->input('email'))->onlyTrashed()->first();
             // dd($checktrashed);

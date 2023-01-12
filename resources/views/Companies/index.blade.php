@@ -35,9 +35,9 @@ Manage CompanyData
                             float: right;
                             margin: -15px 160px;">
                     </div>
-                    <button class="btn btn-success" style="float: right; margin: -16px 130px;">Import CSV</button>
+                    <button class="btn btn-success" style="float: right; margin: -15px 7px;">Import CSV</button>
                     {{-- <a class="btn btn-primary" href="{{ route('importCSV') }}">Import CSV</a> --}}
-                    <div class="dropdown" style="float: right;margin: -22px 2px 0 225px;">
+                    <div class="dropdown" style="float: right;margin: -14px 2px 0 225px;">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             Export Data
                         </button>
@@ -93,7 +93,7 @@ Manage CompanyData
                 @foreach ($companies as $company)
                     <tr id='{{ $company->id }}'>
                         <td><input type="checkbox" class="sub_chk" data-id="{{ $company->id }}"></td>
-                        <td>{{ $company->id }}</td>
+                        <td>{{ $loop->index + $companies->firstItem() }}</td>
                         <td>{{ $company->name }}</td>
                         <td>{{ $company->email }}</td>
                         <td>{{ $company->address }}</td>

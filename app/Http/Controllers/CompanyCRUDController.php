@@ -12,6 +12,7 @@ use Excel;
 use App\Exports\ExportUsers;
 use App\Imports\ImportUsers;
 use App\Events\Logcompany;
+use App\Models\Admin;
 class CompanyCRUDController extends Controller
 {
     /**
@@ -83,6 +84,8 @@ class CompanyCRUDController extends Controller
                 //         return Response($output1);
                 //     }
                 // }
+                
+           
             $data['companies'] = Company::orderBy('id', 'asc')->paginate(5);
             return view('companies.index', $data);
             // return view('dashboard');
