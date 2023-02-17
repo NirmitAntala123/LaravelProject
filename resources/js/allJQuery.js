@@ -178,3 +178,50 @@ $("#search").on("keyup", function () {
 $("#showjson").on("click", function () {
     $("#showdata").toggle();
 });
+function adduser(params) {
+    var myForm = document.getElementById("form1");
+    // console.log(myForm);
+    myForm.addEventListener("submit", function(event) {
+      // Prevent the form from submitting and reloading the page
+      event.preventDefault();
+      const data = new FormData(event.target);
+      const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      fetch('http://127.0.0.1:8000/companies', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token
+          },
+          body: JSON.stringify({
+            name: 'Acme Corporation',
+            email:'adsfasdfasdfadf',
+            address: '123 Main St',
+          })
+      })
+      .then(response => {
+        myForm.removeEventListener('submit', arguments.callee); 
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    });
+   
+}
+function userdata(params) {
+    fetch('http://127.0.0.1:8000/companies', {
+        method: 'GET',
+        // body: formData
+      })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+    
+}
